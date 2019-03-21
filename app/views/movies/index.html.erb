@@ -1,0 +1,30 @@
+<h1>Movies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Year</th>
+      <th>Director</th>
+      <th>Producer</th>
+      <th>Episode</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <td><%= movie["title"] %></td>
+        <td><%= movie["release_date"] %></td>
+        <td><%= movie["director"] %></td>
+        <td><%= movie["producer"] %></td>
+        <td><%= movie["episode_id"] %></td>
+        <td><%= link_to 'Show', movie %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

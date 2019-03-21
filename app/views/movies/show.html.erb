@@ -1,0 +1,110 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @movie["title"] %>
+</p>
+
+<p>
+  <strong>Episode:</strong>
+  <%= @movie["episode_id"] %>
+</p>
+
+<p>
+  <strong>Opening Crawl:</strong>
+  <%= @movie["opening_crawl"] %>
+</p>
+
+<p>
+  <strong>Director:</strong>
+  <%= @movie["director"] %>
+</p>
+
+<p>
+  <strong>Producer:</strong>
+  <%= @movie["producer"] %>
+</p>
+
+<p>
+  <strong>Release Date:</strong>
+  <%= @movie["release_date"] %>
+</p>
+
+
+<p>
+  <table>
+    <thead>
+      <tr>
+        <th>Characters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movie["characters"].each do |character| %>
+        <% @characters.each do |value| %>
+          <% if character == value["url"] %>
+            <% id = character.split("/")[5]  %>
+            <tr>
+              <td>
+                <li ><%= value["name"] %></li>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>      
+    </tbody>
+  </table>
+</p>
+
+<p>
+  <table>
+    <thead>
+      <tr>
+        <th>Planets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movie["planets"].each do |planet| %>
+        <% @planets.each do |value| %>
+          <% if planet == value["url"] %>
+            <% id = planet.split("/")[5]  %>
+            <tr>
+              <td>
+                <li ><%= value["name"] %></li>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>      
+    </tbody>
+  </table>
+</p>
+
+<p>
+  <table>
+    <thead>
+      <tr>
+        <th>Starships</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movie["starships"].each do |starship| %>
+        <% @starships.each do |value| %>
+          <% if starship == value["url"] %>
+            <% id = starship.split("/")[5]  %>
+            <tr>
+              <td>
+                <li ><%= value["name"] %></li>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>      
+    </tbody>
+  </table>
+</p>
+
+
+
+
+<%= link_to 'Back', movies_path %>
+
