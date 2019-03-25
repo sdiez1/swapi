@@ -1,15 +1,25 @@
+require 'httparty'
+
 class CharactersController < ApplicationController
+  include HTTParty
+  self.base_uri "https://swapi.co/api/"
   before_action :set_character, only: [:show, :edit, :update, :destroy]
 
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character.all
+    @characters = self.class.get("/people/")['results']
   end
 
   # GET /characters/1
   # GET /characters/1.json
   def show
+    @character = self.class.get("/people/#{params[:id]}")
+    @planets = self.class.get("/planets/")['results']
+    @starships = self.class.get("/starships/")['results']
+    @movies = self.class.get("/films/")['results']
+    @homeworld = self.class.get("/planets/#{@character["homeworld"].split("/")[5]}")
+    @id_homeworld = @character["homeworld"].split("/")[5]
   end
 
   # GET /characters/new
@@ -64,7 +74,7 @@ class CharactersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_character
-      @character = Character.find(params[:id])
+      @character = self.class.get("/films/#{params[:id]}")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

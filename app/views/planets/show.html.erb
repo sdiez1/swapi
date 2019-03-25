@@ -1,64 +1,90 @@
 <p id="notice"><%= notice %></p>
+<h1><%=@planet["name"] %> </h1>
+&nbsp;
+&nbsp;
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Rotation period</th>
+      <th scope="col">Orbital period</th>
+      <th scope="col">Diameter</th>
+      <th scope="col">Climate</th>
+      <th scope="col">Gravity</th>
+      <th scope="col">Terrain</th>
+      <th scope="col">Surface water</th>
+      <th scope="col">Population</th>
+
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= @planet["rotation_period"] %></td>
+        <td><%= @planet["orbital_period"] %></td>
+        <td><%= @planet["diameter"] %></td>
+        <td><%= @planet["climate"] %></td>
+        <td><%= @planet["gravity"] %></td>
+        <td><%= @planet["terrain"] %></td>
+        <td><%= @planet["surface_water"] %></td>
+        <td><%= @planet["population"] %></td>       
+      </tr>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-sm-4">
 
 <p>
-  <strong>Name:</strong>
-  <%= @planet.name %>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Residents:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @planet["residents"].each do |resident| %>
+        <% @characters.each do |value| %>
+          <% if resident == value["url"] %>
+            <% id = resident.split("/")[5]  %>
+            <tr>
+              <td>
+                <li scope="col"><%= link_to value["name"], character_url(id) %></li>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>      
+    </tbody>
+  </table>
 </p>
+
+</div>
+<div class="col-sm-4">
 
 <p>
-  <strong>Rotation period:</strong>
-  <%= @planet.rotation_period %>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Films:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @planet["films"].each do |film| %>
+        <% @movies.each do |value| %>
+          <% if film == value["url"] %>
+            <% id = film.split("/")[5]  %>
+            <tr>
+              <td>
+                <li scope="col"><%= link_to value["title"], movie_url(id) %></li>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>      
+    </tbody>
+  </table>
 </p>
 
-<p>
-  <strong>Orbital period:</strong>
-  <%= @planet.orbital_period %>
-</p>
+</div></div>
 
-<p>
-  <strong>Diameter:</strong>
-  <%= @planet.diameter %>
-</p>
-
-<p>
-  <strong>Climate:</strong>
-  <%= @planet.climate %>
-</p>
-
-<p>
-  <strong>Gravity:</strong>
-  <%= @planet.gravity %>
-</p>
-
-<p>
-  <strong>Terrain:</strong>
-  <%= @planet.terrain %>
-</p>
-
-<p>
-  <strong>Surface water:</strong>
-  <%= @planet.surface_water %>
-</p>
-
-<p>
-  <strong>Population:</strong>
-  <%= @planet.population %>
-</p>
-
-<p>
-  <strong>Residents:</strong>
-  <%= @planet.residents %>
-</p>
-
-<p>
-  <strong>Films:</strong>
-  <%= @planet.films %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @planet.url %>
-</p>
-
-<%= link_to 'Edit', edit_planet_path(@planet) %> |
 <%= link_to 'Back', planets_path %>

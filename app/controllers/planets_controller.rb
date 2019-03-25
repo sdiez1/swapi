@@ -1,15 +1,24 @@
+require 'httparty'
+
 class PlanetsController < ApplicationController
+  include HTTParty
+  self.base_uri "https://swapi.co/api/"
   before_action :set_planet, only: [:show, :edit, :update, :destroy]
 
   # GET /planets
   # GET /planets.json
   def index
-    @planets = Planet.all
+    @planets = self.class.get("/planets/")['results']
   end
 
   # GET /planets/1
   # GET /planets/1.json
   def show
+    @movies = self.class.get("/films/")['results']
+    @planet = self.class.get("/planets/#{params[:id]}")
+    @characters = self.class.get("/people/")['results']
+    @planets = self.class.get("/planets/")['results']
+    @starships = self.class.get("/starships/")['results']
   end
 
   # GET /planets/new
@@ -64,7 +73,7 @@ class PlanetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_planet
-      @planet = Planet.find(params[:id])
+      @planet = self.class.get("/planets/#{params[:id]}")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

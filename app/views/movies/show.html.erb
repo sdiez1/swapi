@@ -1,39 +1,40 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @movie["title"] %>
-</p>
-
-<p>
-  <strong>Episode:</strong>
-  <%= @movie["episode_id"] %>
-</p>
-
+<h1><%= @movie["title"] %> </h1>
+&nbsp;
+&nbsp;
 <p>
   <strong>Opening Crawl:</strong>
   <%= @movie["opening_crawl"] %>
 </p>
+&nbsp;
+&nbsp;
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Episode</th>
+      <th scope="col">Director</th>
+      <th scope="col">Producer</th>
+      <th scope="col">Release Date</th>
 
-<p>
-  <strong>Director:</strong>
-  <%= @movie["director"] %>
-</p>
-
-<p>
-  <strong>Producer:</strong>
-  <%= @movie["producer"] %>
-</p>
-
-<p>
-  <strong>Release Date:</strong>
-  <%= @movie["release_date"] %>
-</p>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= @movie["episode_id"] %></td>
+        <td><%= @movie["director"] %></td>
+        <td><%= @movie["producer"] %></td>
+        <td><%= @movie["release_date"] %></td>        
+      </tr>
+  </tbody>
+</table>
 
 
-<p>
-  <table>
-    <thead>
+<div class="row">
+  <div class="col-sm-4">
+    <p>
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
         <th>Characters</th>
       </tr>
@@ -45,7 +46,7 @@
             <% id = character.split("/")[5]  %>
             <tr>
               <td>
-                <li ><%= value["name"] %></li>
+                <li scope="col"><%= link_to value["name"], character_url(id) %></li>
               </td>
             </tr>
           <% end %>
@@ -54,10 +55,12 @@
     </tbody>
   </table>
 </p>
+</div>
+  <div class="col-sm-4">
 
-<p>
-  <table>
-    <thead>
+  <p>
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
         <th>Planets</th>
       </tr>
@@ -69,7 +72,7 @@
             <% id = planet.split("/")[5]  %>
             <tr>
               <td>
-                <li ><%= value["name"] %></li>
+                <li scope="col"><%= link_to value["name"], planet_url(id) %></li>
               </td>
             </tr>
           <% end %>
@@ -78,10 +81,11 @@
     </tbody>
   </table>
 </p>
-
-<p>
-  <table>
-    <thead>
+</div>
+  <div class="col-sm-4">
+  <p>
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
         <th>Starships</th>
       </tr>
@@ -93,7 +97,7 @@
             <% id = starship.split("/")[5]  %>
             <tr>
               <td>
-                <li ><%= value["name"] %></li>
+                <li scope="col"><%= link_to value["name"], starship_url(id) %></li>
               </td>
             </tr>
           <% end %>
@@ -102,8 +106,8 @@
     </tbody>
   </table>
 </p>
-
-
+</div>
+</div>
 
 
 <%= link_to 'Back', movies_path %>

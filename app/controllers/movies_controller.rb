@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
-    @movies = self.class.get("/films/")['results']
+      @movies = self.class.get("/films/")['results']
   end
 
   # GET /movies/1

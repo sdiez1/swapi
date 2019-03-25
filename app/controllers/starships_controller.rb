@@ -1,15 +1,24 @@
+require 'httparty'
+
 class StarshipsController < ApplicationController
+  include HTTParty
+  self.base_uri "https://swapi.co/api/"
   before_action :set_starship, only: [:show, :edit, :update, :destroy]
 
   # GET /starships
   # GET /starships.json
   def index
-    @starships = Starship.all
+    @starships = self.class.get("/starships/")['results']
   end
 
   # GET /starships/1
   # GET /starships/1.json
   def show
+    @starship = self.class.get("/starships/#{params[:id]}")
+    @movies = self.class.get("/films/")['results']
+    @characters = self.class.get("/people/")['results']
+    @planets = self.class.get("/planets/")['results']
+    @starships = self.class.get("/starships/")['results']
   end
 
   # GET /starships/new
@@ -64,7 +73,7 @@ class StarshipsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_starship
-      @starship = Starship.find(params[:id])
+      @starship = self.class.get("/starships/#{params[:id]}")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
