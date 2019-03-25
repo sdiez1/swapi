@@ -8,18 +8,37 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    @characters = self.class.get("/people/")['results']
+      #@characters = self.class.get("/people/")['results']
+
+      @planets = self.class.get("/planets/")['results']
+      @starships = self.class.get("/starships/")['results']
+      @movies = self.class.get("/films/")['results']
+      @characters = self.class.get("/people/")['results']
+      @character = self.class.get("/people/#{params[:id]}")
+      @movie = self.class.get("/films/#{params[:id]}")
+      @starship = self.class.get("/starships/#{params[:id]}")
+      @planet = self.class.get("/planets/#{params[:id]}")
+
   end
 
   # GET /characters/1
   # GET /characters/1.json
   def show
-    @character = self.class.get("/people/#{params[:id]}")
-    @planets = self.class.get("/planets/")['results']
-    @starships = self.class.get("/starships/")['results']
-    @movies = self.class.get("/films/")['results']
+    #@character = self.class.get("/people/#{params[:id]}")
+    #@planets = self.class.get("/planets/")['results']
+    #@starships = self.class.get("/starships/")['results']
+    #@movies = self.class.get("/films/")['results']
     @homeworld = self.class.get("/planets/#{@character["homeworld"].split("/")[5]}")
     @id_homeworld = @character["homeworld"].split("/")[5]
+
+      @planets = self.class.get("/planets/")['results']
+      @starships = self.class.get("/starships/")['results']
+      @movies = self.class.get("/films/")['results']
+      @characters = self.class.get("/people/")['results']
+      @character = self.class.get("/people/#{params[:id]}")
+      @movie = self.class.get("/films/#{params[:id]}")
+      @starship = self.class.get("/starships/#{params[:id]}")
+      @planet = self.class.get("/planets/#{params[:id]}")
   end
 
   # GET /characters/new

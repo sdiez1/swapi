@@ -8,17 +8,35 @@ class PlanetsController < ApplicationController
   # GET /planets
   # GET /planets.json
   def index
-    @planets = self.class.get("/planets/")['results']
+    #@planets = self.class.get("/planets/")['results']
+
+      @planets = self.class.get("/planets/")['results']
+      @starships = self.class.get("/starships/")['results']
+      @movies = self.class.get("/films/")['results']
+      @characters = self.class.get("/people/")['results']
+      @character = self.class.get("/people/#{params[:id]}")
+      @movie = self.class.get("/films/#{params[:id]}")
+      @starship = self.class.get("/starships/#{params[:id]}")
+      @planet = self.class.get("/planets/#{params[:id]}")
   end
 
   # GET /planets/1
   # GET /planets/1.json
   def show
-    @movies = self.class.get("/films/")['results']
-    @planet = self.class.get("/planets/#{params[:id]}")
-    @characters = self.class.get("/people/")['results']
-    @planets = self.class.get("/planets/")['results']
-    @starships = self.class.get("/starships/")['results']
+    #@movies = self.class.get("/films/")['results']
+    #@planet = self.class.get("/planets/#{params[:id]}")
+    #@characters = self.class.get("/people/")['results']
+    #@planets = self.class.get("/planets/")['results']
+    #@starships = self.class.get("/starships/")['results']
+
+      @planets = self.class.get("/planets/")['results']
+      @starships = self.class.get("/starships/")['results']
+      @movies = self.class.get("/films/")['results']
+      @characters = self.class.get("/people/")['results']
+      @character = self.class.get("/people/#{params[:id]}")
+      @movie = self.class.get("/films/#{params[:id]}")
+      @starship = self.class.get("/starships/#{params[:id]}")
+      @planet = self.class.get("/planets/#{params[:id]}")
   end
 
   # GET /planets/new
