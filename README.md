@@ -1,24 +1,5 @@
-# README
+Me base principalmente en https://www.w3schools.com/howto/howto_js_filter_dropdown.asp para hacer el buscador.
+Ademas de la siguiente pagina use varios codigos: https://medium.com/@rhoprhh/star-wars-api-part-3-rails-localhost-28a173e6da84
+Y de stackoverflow y google encontre varios codigos.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Saludos
