@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PlanetTest < ActiveSupport::TestCase
+class CharacterControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

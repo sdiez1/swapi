@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<h1><%=@planet["name"] %> </h1>
+<h1><%=@planet.name %> </h1>
 &nbsp;
 &nbsp;
 
@@ -19,14 +19,14 @@
   </thead>
   <tbody>
       <tr>
-        <td><%= @planet["rotation_period"] %></td>
-        <td><%= @planet["orbital_period"] %></td>
-        <td><%= @planet["diameter"] %></td>
-        <td><%= @planet["climate"] %></td>
-        <td><%= @planet["gravity"] %></td>
-        <td><%= @planet["terrain"] %></td>
-        <td><%= @planet["surface_water"] %></td>
-        <td><%= @planet["population"] %></td>       
+        <td><%= @planet.rotation_period %></td>
+        <td><%= @planet.orbital_period %></td>
+        <td><%= @planet.diameter %></td>
+        <td><%= @planet.climates %></td>
+        <td><%= @planet.gravity %></td>
+        <td><%= @planet.terrains %></td>
+        <td><%= @planet.surface_water %></td>
+        <td><%= @planet.population %></td>       
       </tr>
   </tbody>
 </table>
@@ -42,18 +42,13 @@
       </tr>
     </thead>
     <tbody>
-      <% @planet["residents"].each do |resident| %>
-        <% @characters.each do |value| %>
-          <% if resident == value["url"] %>
-            <% id = resident.split("/")[5]  %>
-            <tr>
-              <td>
-                <li scope="col"><%= link_to value["name"], character_url(id) %></li>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      <% end %>      
+      <% @planet.resident_connection.edges.each do |character| %>
+        <tr>
+          <td>
+            <li scope="col"><%= link_to character.node.name, character_url(character.node.id) %></li>
+          </td>
+        </tr> 
+      <% end %>    
     </tbody>
   </table>
 </p>
@@ -69,17 +64,12 @@
       </tr>
     </thead>
     <tbody>
-      <% @planet["films"].each do |film| %>
-        <% @movies.each do |value| %>
-          <% if film == value["url"] %>
-            <% id = film.split("/")[5]  %>
-            <tr>
-              <td>
-                <li scope="col"><%= link_to value["title"], movie_url(id) %></li>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
+      <% @planet.film_connection.edges.each do |film| %>
+        <tr>
+          <td>
+            <li scope="col"><%= link_to film.node.title, movie_url(film.node.id) %></li>
+          </td>
+        </tr>
       <% end %>      
     </tbody>
   </table>

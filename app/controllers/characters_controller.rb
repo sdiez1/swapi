@@ -1,103 +1,52 @@
-require 'httparty'
-
 class CharactersController < ApplicationController
-  include HTTParty
-  self.base_uri "https://swapi.co/api/"
-  before_action :set_character, only: [:show, :edit, :update, :destroy]
-
-  # GET /characters
-  # GET /characters.json
-  def index
-      #@characters = self.class.get("/people/")['results']
-
-      @planets = self.class.get("/planets/")['results']
-      @starships = self.class.get("/starships/")['results']
-      @movies = self.class.get("/films/")['results']
-      @characters = self.class.get("/people/")['results']
-      @character = self.class.get("/people/#{params[:id]}")
-      @movie = self.class.get("/films/#{params[:id]}")
-      @starship = self.class.get("/starships/#{params[:id]}")
-      @planet = self.class.get("/planets/#{params[:id]}")
-
-  end
-
-  # GET /characters/1
-  # GET /characters/1.json
   def show
-    #@character = self.class.get("/people/#{params[:id]}")
-    #@planets = self.class.get("/planets/")['results']
-    #@starships = self.class.get("/starships/")['results']
-    #@movies = self.class.get("/films/")['results']
-    @homeworld = self.class.get("/planets/#{@character["homeworld"].split("/")[5]}")
-    @id_homeworld = @character["homeworld"].split("/")[5]
+    response = @@client.query <<~GRAPHQL
+      query {
+        person(id: "#{params[:id]}") {
+        id
+        name
+        birthYear
+        eyeColor
+        gender
+        height
+        hairColor
+        mass
+        skinColor
+        homeworld {
+          id
+          name
+        }
+        starshipConnection {
+          edges {
+            node {
+              ...StarshipFragment
+            }
+          }
+        }
+        filmConnection {
+          edges {
+            node {
+              ...FilmFragment
+            }
+          }
+        }
+      }
+    }
 
-      @planets = self.class.get("/planets/")['results']
-      @starships = self.class.get("/starships/")['results']
-      @movies = self.class.get("/films/")['results']
-      @characters = self.class.get("/people/")['results']
-      @character = self.class.get("/people/#{params[:id]}")
-      @movie = self.class.get("/films/#{params[:id]}")
-      @starship = self.class.get("/starships/#{params[:id]}")
-      @planet = self.class.get("/planets/#{params[:id]}")
+
+    fragment FilmFragment on Film {
+      id
+      title
+    }
+
+    fragment StarshipFragment on Starship {
+      id
+      name
+      costInCredits
+      model
+    }
+    GRAPHQL
+
+    @character = response.data.person
   end
-
-  # GET /characters/new
-  def new
-    @character = Character.new
-  end
-
-  # GET /characters/1/edit
-  def edit
-  end
-
-  # POST /characters
-  # POST /characters.json
-  def create
-    @character = Character.new(character_params)
-
-    respond_to do |format|
-      if @character.save
-        format.html { redirect_to @character, notice: 'Character was successfully created.' }
-        format.json { render :show, status: :created, location: @character }
-      else
-        format.html { render :new }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /characters/1
-  # PATCH/PUT /characters/1.json
-  def update
-    respond_to do |format|
-      if @character.update(character_params)
-        format.html { redirect_to @character, notice: 'Character was successfully updated.' }
-        format.json { render :show, status: :ok, location: @character }
-      else
-        format.html { render :edit }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /characters/1
-  # DELETE /characters/1.json
-  def destroy
-    @character.destroy
-    respond_to do |format|
-      format.html { redirect_to characters_url, notice: 'Character was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_character
-      @character = self.class.get("/films/#{params[:id]}")
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def character_params
-      params.require(:character).permit(:name, :height, :mass, :hair_color, :skin_color, :eye_color, :birth_year, :gender, :homeworld, :films, :starships, :url)
-    end
 end

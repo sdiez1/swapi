@@ -1,5 +1,5 @@
 {
-  "name": "swapi",
+  "name": "swapi_graphql",
   "private": true,
   "dependencies": {}
 }

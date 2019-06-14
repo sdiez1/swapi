@@ -1,101 +1,78 @@
-require 'httparty'
-
 class MoviesController < ApplicationController
-  include HTTParty
-  self.base_uri "https://swapi.co/api/"
-  before_action :set_movie, only: [:show, :edit, :update, :destroy]
-
-  # GET /movies
-  # GET /movies.json
   def index
-      #@movies = self.class.get("/films/")['results']
+  	response = @@client.query <<~GRAPHQL
+      query {
+        allFilms {
+		    edges {
+		      node {
+		        id
+		        title
+		        releaseDate
+		        director
+		        producers
+		        episodeID
+		      }
+		    }
+		  }
+      }
+    GRAPHQL
 
-      @planets = self.class.get("/planets/")['results']
-      @starships = self.class.get("/starships/")['results']
-      @movies = self.class.get("/films/")['results']
-      @characters = self.class.get("/people/")['results']
-      @character = self.class.get("/people/#{params[:id]}")
-      @movie = self.class.get("/films/#{params[:id]}")
-      @starship = self.class.get("/starships/#{params[:id]}")
-      @planet = self.class.get("/planets/#{params[:id]}")
+    @movies = response.data.all_films.edges
   end
 
-  # GET /movies/1
-  # GET /movies/1.json
   def show
-    #@movie = self.class.get("/films/#{params[:id]}")
-    #@characters = self.class.get("/people/")['results']
-    #@planets = self.class.get("/planets/")['results']
-    #@starships = self.class.get("/starships/")['results']
+  	response = @@client.query <<~GRAPHQL
+      query {
+          film(id: "#{params[:id]}") {
+		    id
+		    title
+		    episodeID
+		    openingCrawl
+		    director
+		    producers
+		    releaseDate
+		    characterConnection {
+		      edges {
+		        node {
+		          ...CharacterFragment
+		        }
+		      }
+		    }
+		    starshipConnection {
+		      edges {
+		        node {
+		          ...StarshipFragment
+		        }
+		      }
+		    }
+		    planetConnection {
+		      edges {
+		        node {
+		          ...PlanetFragment
+		        }
+		      }
+		    }
+		  }
+		}
 
-      @planets = self.class.get("/planets/")['results']
-      @starships = self.class.get("/starships/")['results']
-      @movies = self.class.get("/films/")['results']
-      @characters = self.class.get("/people/")['results']
-      @character = self.class.get("/people/#{params[:id]}")
-      @movie = self.class.get("/films/#{params[:id]}")
-      @starship = self.class.get("/starships/#{params[:id]}")
-      @planet = self.class.get("/planets/#{params[:id]}")
+		fragment StarshipFragment on Starship {
+		  id
+		  name
+		}
+
+		fragment CharacterFragment on Person {
+		  id
+		  name
+		}
+
+		fragment PlanetFragment on Planet {
+		  id
+		  name
+		}
+    GRAPHQL
+
+    @movie = response.data.film
+
 
   end
-
-  # GET /movies/new
-  def new
-    @movie = Movie.new
-  end
-
-  # GET /movies/1/edit
-  def edit
-  end
-
-  # POST /movies
-  # POST /movies.json
-  def create
-    @movie = Movie.new(movie_params)
-
-    respond_to do |format|
-      if @movie.save
-        format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
-        format.json { render :show, status: :created, location: @movie }
-      else
-        format.html { render :new }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /movies/1
-  # PATCH/PUT /movies/1.json
-  def update
-    respond_to do |format|
-      if @movie.update(movie_params)
-        format.html { redirect_to @movie, notice: 'Movie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      else
-        format.html { render :edit }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /movies/1
-  # DELETE /movies/1.json
-  def destroy
-    @movie.destroy
-    respond_to do |format|
-      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_movie
-      @movie = self.class.get("/films/#{params[:id]}")
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def movie_params
-      params.require(:movie).permit(:name, :year, :director, :producer, :episode, :opening_crawl, :characters, :planets, :starships, :vehicles, :species, :created, :edited, :url)
-    end
 end

@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<h1><%=@character["name"] %> </h1>
+<h1><%=@character.name %> </h1>
 &nbsp;
 &nbsp;
 
@@ -19,14 +19,14 @@
   </thead>
   <tbody>
       <tr>
-        <td><%= @character["height"] %></td>
-        <td><%= @character["mass"] %></td>
-        <td><%= @character["hair_color"] %></td>
-        <td><%= @character["skin_color"] %></td>
-        <td><%= @character["eye_color"] %></td>
-        <td><%= @character["birth_year"] %></td>
-        <td><%= @character["gender"] %></td>
-        <td><%= link_to @homeworld["name"], planet_url(@id_homeworld) %></td>        
+        <td><%= @character.height %></td>
+        <td><%= @character.mass %></td>
+        <td><%= @character.hair_color %></td>
+        <td><%= @character.skin_color %></td>
+        <td><%= @character.eye_color %></td>
+        <td><%= @character.birth_year %></td>
+        <td><%= @character.gender %></td>
+        <td><%= link_to @character.homeworld.name, planet_url(@character.homeworld.id) %></td>        
       </tr>
   </tbody>
 </table>
@@ -42,17 +42,12 @@
       </tr>
     </thead>
     <tbody>
-      <% @character["films"].each do |film| %>
-        <% @movies.each do |value| %>
-          <% if film == value["url"] %>
-            <% id = film.split("/")[5]  %>
-            <tr>
-              <td>
-                <li scope="col"><%= link_to value["title"], movie_url(id) %></li>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
+      <% @character.film_connection.edges.each do |film| %>
+        <tr>
+          <td>
+            <li scope="col"><%= link_to film.node.title, movie_url(film.node.id) %></li>
+          </td>
+        </tr>
       <% end %>      
     </tbody>
   </table>
@@ -69,21 +64,14 @@
       </tr>
     </thead>
     <tbody>
-      <% @character["starships"].each do |starship| %>
-        <% @starships.each do |value| %>
-          <% if starship == value["url"] %>
-            <% id = starship.split("/")[5]  %>
-            <tr>
-              <td>
-                <li scope="col"><%= link_to value["name"], starship_url(id) %></li>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
+      <% @character.starship_connection.edges.each do |starship| %>
+        <tr>
+          <td>
+            <li scope="col"><%= link_to starship.node.name, starship_url(starship.node.id) %></li>
+          </td>
+        </tr>
       <% end %>      
     </tbody>
   </table>
 </p>
 
-</div></div>
-<%= link_to 'Back', characters_path %>
